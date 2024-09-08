@@ -22,7 +22,6 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cross-env": "^7.0.3",
-    "iconsax-react": "^0.0.8",
     "lucide-react": "^0.439.0",
     "next": "14.0.4",
     "react": "^18",

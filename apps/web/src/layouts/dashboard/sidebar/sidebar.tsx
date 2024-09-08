@@ -1,5 +1,6 @@
 import * as React from 'react';
 
+import AppIcon from '@/components/app-icon';
 import { Droplets } from 'lucide-react';
 import Link from 'next/link';
 import { SIDEBAR_LINKS } from '@/lib/constant';
@@ -16,7 +17,7 @@ const Sidebar: React.FC<SidebarProps> = ({ ...props }) => {
       <div className='flex h-full max-h-screen flex-col gap-2'>
         <div className='flex h-16 items-center border-b px-6'>
           <Link href='/' className='flex items-center gap-2 font-semibold'>
-            <Droplets className='h-6 w-6' />
+            <AppIcon className='h-6 w-6' />
             <span className='whitespace-nowrap'>{process.env.NEXT_PUBLIC_APP_NAME}</span>
           </Link>
         </div>

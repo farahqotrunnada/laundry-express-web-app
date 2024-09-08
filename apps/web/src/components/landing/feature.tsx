@@ -1,33 +1,7 @@
 import { PersonStanding, Timer, Zap, ZoomIn } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
-
-const features = [
-  {
-    title: 'Performance',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt, accusantium quam. Temporibus quae quos deserunt!',
-    icon: <Timer className='size-6' />,
-  },
-  {
-    title: 'Innovation',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt, accusantium quam. Temporibus quae quos deserunt!',
-    icon: <Zap className='size-6' />,
-  },
-  {
-    title: 'Quality',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt, accusantium quam. Temporibus quae quos deserunt!',
-    icon: <ZoomIn className='size-6' />,
-  },
-  {
-    title: 'Accessibility',
-    description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nesciunt, accusantium quam. Temporibus quae quos deserunt!',
-    icon: <PersonStanding className='size-6' />,
-  },
-];
+import { FEATURES_LIST } from '@/lib/constant';
 
 const Feature = () => {
   return (
@@ -40,18 +14,22 @@ const Feature = () => {
         </p>
       </div>
 
-      <div className='mx-auto mt-14 grid gap-8 md:grid-cols-2 md:gap-y-6 lg:mt-20'>
-        {features.map((feature, idx) => (
-          <div className='flex gap-6 rounded-lg md:block p-6 bg-muted' key={idx}>
-            <span className='mb-8 flex text-white size-10 shrink-0 items-center justify-center rounded-full md:size-12 bg-primary'>
-              {feature.icon}
-            </span>
-            <div>
-              <h3 className='font-medium md:mb-2 text-lg'>{feature.title}</h3>
-              <p className='text-sm text-muted-foreground'>{feature.description}</p>
+      <div className='mx-auto mt-14 grid gap-8 md:grid-cols-3'>
+        {FEATURES_LIST.map((feature, idx) => {
+          const Icon = feature.icon;
+
+          return (
+            <div className='flex gap-6 rounded-lg md:block p-6 bg-muted' key={idx}>
+              <span className='mb-2 flex text-white size-8 shrink-0 items-center justify-center rounded-full bg-primary'>
+                <Icon className='size-5' />
+              </span>
+              <div>
+                <h3 className='font-medium md:mb-2 text-lg'>{feature.title}</h3>
+                <p className='text-sm text-muted-foreground'>{feature.description}</p>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );
