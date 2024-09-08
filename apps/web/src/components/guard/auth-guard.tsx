@@ -2,9 +2,8 @@
 
 import * as React from 'react';
 
+import Loader from '@/components/loader';
 import { useAuth } from '@/hooks/use-auth';
-import { useIsMounted } from 'usehooks-ts';
-import { useRouter } from 'next/navigation';
 
 type Role = 'Driver' | 'Customer' | 'Superadmin' | 'OutletAdmin' | 'WashingWorker' | 'IroningWorker' | 'PackingWorker';
 
@@ -13,26 +12,26 @@ interface AuthGuardProps extends React.PropsWithChildren {
 }
 
 const AuthGuard: React.FC<AuthGuardProps> = ({ allowed, children }) => {
-  const router = useRouter();
-  const isMounted = useIsMounted();
-  const { token, signout } = useAuth();
+  const { token } = useAuth();
+  const [loading, setLoading] = React.useState(true);
 
   React.useEffect(() => {
-    if (!token) return router.push('/auth/login');
+    if (token) {
+      const verify = async () => {
+        const res = await fetch('/api/auth/verify', {
+          method: 'POST',
+          body: JSON.stringify({ token, allowed }),
+        });
+        const json = await res.json();
+        if (!json.protected) window.location.href = '/';
+      };
 
-    const verify = async () => {
-      const response = await fetch('/api/auth/verify', {
-        method: 'POST',
-        body: JSON.stringify({ token, allowed }),
-      });
+      verify();
+      setLoading(false);
+    } else window.location.href = '/auth/login';
+  }, [token, allowed]);
 
-      if (response.status === 401) signout();
-    };
-
-    verify();
-  }, [token, allowed, router, signout]);
-
-  if (!isMounted) return null;
+  if (loading) return <Loader />;
   return <>{children}</>;
 };
 

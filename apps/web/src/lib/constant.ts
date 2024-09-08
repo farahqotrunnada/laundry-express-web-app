@@ -3,8 +3,8 @@ import {
   Home,
   LineChart,
   Lock,
-  Package,
   PersonStanding,
+  Shirt,
   ShoppingCart,
   Timer,
   Users,
@@ -18,9 +18,9 @@ export const PROJECT_NAME = process.env.NEXT_PUBLIC_PROJECT_NAME as string;
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 
 export const SIDEBAR_LINKS: SidebarMenu[] = [
-  { title: 'Dashboard', href: '#', icon: Home, badge: 6, active: true },
-  { title: 'Orders', href: '#', icon: ShoppingCart },
-  { title: 'Products', href: '#', icon: Package },
+  { title: 'Dashboard', href: '/dashboard', icon: Home, badge: 6, active: true },
+  { title: 'Orders', href: '/dashboard/orders', icon: ShoppingCart },
+  { title: 'Laundry Item', href: '/dashboard/laundry-item', icon: Shirt },
   { title: 'Customers', href: '#', icon: Users },
   { title: 'Analytics', href: '#', icon: LineChart },
 ];
