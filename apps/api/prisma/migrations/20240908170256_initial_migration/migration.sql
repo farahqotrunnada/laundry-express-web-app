@@ -1,5 +1,5 @@
 -- CreateEnum
-CREATE TYPE "Role" AS ENUM ('Driver', 'SuperAdmin', 'OutletAdmin', 'IroningWorker', 'PackingWorker', 'DeliveryWorker');
+CREATE TYPE "Role" AS ENUM ('Driver', 'Customer', 'SuperAdmin', 'OutletAdmin', 'WashingWorker', 'IroningWorker', 'PackingWorker');
 
 -- CreateEnum
 CREATE TYPE "PaymentStatus" AS ENUM ('Pending', 'Paid', 'Cancelled', 'Refunded');
@@ -22,7 +22,8 @@ CREATE TABLE "users" (
     "fullname" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "phone" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
+    "role" "Role" NOT NULL DEFAULT 'Customer',
+    "password" TEXT,
     "google_id" TEXT,
     "avatar_url" TEXT,
     "is_verified" BOOLEAN NOT NULL DEFAULT false,
@@ -91,7 +92,6 @@ CREATE TABLE "shifts" (
 CREATE TABLE "employees" (
     "employee_id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
-    "role_id" "Role" NOT NULL,
     "outlet_id" TEXT,
     "shift_id" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,

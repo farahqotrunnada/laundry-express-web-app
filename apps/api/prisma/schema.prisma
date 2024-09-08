@@ -10,12 +10,23 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  Driver
+  Customer
+  SuperAdmin
+  OutletAdmin
+  WashingWorker
+  IroningWorker
+  PackingWorker
+}
+
 model User {
   user_id     String   @id @default(cuid())
   fullname    String
   email       String   @unique
   phone       String
-  password    String
+  role        Role     @default(Customer)
+  password    String?
   google_id   String?
   avatar_url  String?
   is_verified Boolean  @default(false)
@@ -95,19 +106,9 @@ model Shift {
   @@map("shifts")
 }
 
-enum Role {
-  Driver
-  SuperAdmin
-  OutletAdmin
-  IroningWorker
-  PackingWorker
-  DeliveryWorker
-}
-
 model Employee {
   employee_id String   @id @default(cuid())
   user_id     String   @unique
-  role_id     Role
   outlet_id   String?
   shift_id    String?
   created_at  DateTime @default(now())

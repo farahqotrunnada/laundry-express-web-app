@@ -8,6 +8,7 @@ import AppMenu from './app-menu';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { NavigationItem } from '@/types/navigation';
+import { PROJECT_NAME } from '@/lib/constant';
 import { useState } from 'react';
 
 interface HeaderProps {
@@ -22,9 +23,9 @@ const Header: React.FC<HeaderProps> = ({ menus }) => {
       <div className='container relative min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center'>
         <AppMenu menus={menus} />
 
-        <div className='flex lg:justify-center items-center space-x-2'>
+        <div className='flex lg:justify-center items-center space-x-2 font-semibold'>
           <AppIcon className='h-6 w-6' />
-          <p className='font-semibold whitespace-nowrap'>{process.env.NEXT_PUBLIC_APP_NAME}</p>
+          <p className=' whitespace-nowrap'>{PROJECT_NAME}</p>
         </div>
 
         <AccountMenu />

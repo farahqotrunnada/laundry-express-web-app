@@ -1,6 +1,7 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 
 import { PORT } from '@/config';
+import cookie from 'cookie-parser';
 import cors from 'cors';
 import v1Router from '@/routers/v1/index.routes';
 
@@ -16,6 +17,7 @@ export default class App {
 
   private configure(): void {
     this.app.use(cors());
+    this.app.use(cookie());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
   }
