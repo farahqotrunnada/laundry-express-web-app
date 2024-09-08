@@ -1,15 +1,8 @@
-import express, {
-  json,
-  urlencoded,
-  Express,
-  Request,
-  Response,
-  NextFunction,
-  Router,
-} from 'express';
+import express, { Express, NextFunction, Request, Response } from 'express';
+
+import { PORT } from '@/config';
 import cors from 'cors';
-import { PORT } from './config';
-import { SampleRouter } from './routers/sample.router';
+import v1Router from '@/routers/v1/index.routes';
 
 export default class App {
   private app: Express;
@@ -23,12 +16,11 @@ export default class App {
 
   private configure(): void {
     this.app.use(cors());
-    this.app.use(json());
-    this.app.use(urlencoded({ extended: true }));
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
   }
 
   private handleError(): void {
-    // not found
     this.app.use((req: Request, res: Response, next: NextFunction) => {
       if (req.path.includes('/api/')) {
         res.status(404).send('Not found !');
@@ -37,27 +29,24 @@ export default class App {
       }
     });
 
-    // error
-    this.app.use(
-      (err: Error, req: Request, res: Response, next: NextFunction) => {
-        if (req.path.includes('/api/')) {
-          console.error('Error : ', err.stack);
-          res.status(500).send('Error !');
-        } else {
-          next();
-        }
-      },
-    );
+    this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+      if (req.path.includes('/api/')) {
+        console.error('Error : ', err.stack);
+        res.status(500).send('Error !');
+      } else {
+        next();
+      }
+    });
   }
 
   private routes(): void {
-    const sampleRouter = new SampleRouter();
+    const v1 = new v1Router();
 
-    this.app.get('/api', (req: Request, res: Response) => {
-      res.send(`Hello, Purwadhika Student API!`);
+    this.app.get('/_debug/healthcheck', (req: Request, res: Response) => {
+      res.send('OK');
     });
 
-    this.app.use('/api/samples', sampleRouter.getRouter());
+    this.app.use('/api/v1', v1.getRouter());
   }
 
   public start(): void {

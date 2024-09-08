@@ -1,7 +1,7 @@
-import { SampleController } from '@/controllers/sample.controller';
 import { Router } from 'express';
+import SampleController from '@/controllers/sample.controller';
 
-export class SampleRouter {
+export default class SampleRouter {
   private router: Router;
   private sampleController: SampleController;
 
@@ -13,8 +13,8 @@ export class SampleRouter {
 
   private initializeRoutes(): void {
     this.router.get('/', this.sampleController.getSampleData);
-    this.router.get('/:id', this.sampleController.getSampleDataById);
     this.router.post('/', this.sampleController.createSampleData);
+    this.router.get('/:id', this.sampleController.getSampleDataById);
   }
 
   getRouter(): Router {
