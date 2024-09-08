@@ -3,6 +3,7 @@
 import { Menu, X } from 'lucide-react';
 
 import AccountMenu from './account-menu';
+import AppIcon from '@/components/app-icon';
 import AppMenu from './app-menu';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -21,7 +22,8 @@ const Header: React.FC<HeaderProps> = ({ menus }) => {
       <div className='container relative min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center'>
         <AppMenu menus={menus} />
 
-        <div className='flex lg:justify-center'>
+        <div className='flex lg:justify-center items-center space-x-2'>
+          <AppIcon className='h-6 w-6' />
           <p className='font-semibold whitespace-nowrap'>{process.env.NEXT_PUBLIC_APP_NAME}</p>
         </div>
 

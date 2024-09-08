@@ -20,7 +20,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ ...props }) => {
         <Button variant='outline'>Sign in</Button>
       </Link>
 
-      <Link href='/dashboard'>
+      <Link href='/dashboard' className='hidden md:block'>
         <Button>Get started</Button>
       </Link>
     </div>
