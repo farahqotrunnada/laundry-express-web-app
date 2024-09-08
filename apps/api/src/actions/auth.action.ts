@@ -2,6 +2,7 @@ import { comparePasswords, generateAccessToken, generateHash, generateRefreshTok
 
 import ApiError from '@/utils/api.error';
 import EmailAction from '@/actions/email.action';
+import { JWT_SECRET } from '@/config';
 import prisma from '@/libs/prisma';
 
 export default class AuthAction {
@@ -11,69 +12,122 @@ export default class AuthAction {
     this.emailAction = new EmailAction();
   }
 
-  async login(email: string, password: string) {
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+  login = async (email: string, password: string) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email },
+      });
 
-    if (!user) throw new ApiError(401, 'Invalid email or password');
-    if (!user.password || !user.is_verified) throw new ApiError(401, 'Please verify your email, to login');
+      if (!user) throw new ApiError(401, 'Invalid email or password');
+      if (!user.password || !user.is_verified) throw new ApiError(401, 'Please verify your email, to login');
 
-    const valid = await comparePasswords(password, user.password);
-    if (!valid) throw new ApiError(401, 'Invalid email or password');
+      const valid = await comparePasswords(password, user.password);
+      if (!valid) throw new ApiError(401, 'Invalid email or password');
 
-    const access_token = generateAccessToken(user);
-    const refresh_token = generateRefreshToken(user);
+      const access_token = generateAccessToken({
+        user_id: user.user_id,
+        fullname: user.fullname,
+        email: user.email,
+        avatar_url: user.avatar_url,
+        role: user.role,
+      });
 
-    return { access_token, refresh_token };
-  }
+      const refresh_token = generateRefreshToken({
+        user_id: user.user_id,
+        email: user.email,
+      });
 
-  async register(email: string, fullname: string, phone: string) {
-    const user = await prisma.user.findUnique({
-      where: { email },
-    });
+      return { access_token, refresh_token };
+    } catch (error) {
+      throw error;
+    }
+  };
 
-    if (user) throw new ApiError(401, 'Email already exists');
+  profile = async (user_id: string) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { user_id },
+      });
 
-    const created = await prisma.user.create({
-      data: {
-        email,
-        fullname,
-        phone,
-      },
-    });
+      if (!user) throw new ApiError(401, 'Invalid token');
 
-    await this.emailAction.sendVerificationEmail(created);
-  }
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
 
-  async verify(user_id: string) {
-    const user = await prisma.user.findUnique({
-      where: { user_id },
-    });
-    if (!user) throw new ApiError(401, 'Invalid token');
+  register = async (email: string, fullname: string, phone: string) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { email },
+      });
 
-    user.is_verified = true;
-    await prisma.user.update({
-      where: { user_id: user.user_id },
-      data: { is_verified: true },
-    });
+      if (user) throw new ApiError(401, 'Email already exists');
 
-    return user;
-  }
+      const created = await prisma.user.create({
+        data: {
+          email,
+          fullname,
+          phone,
+        },
+      });
 
-  async setPassword(user_id: string, password: string) {
-    const user = await prisma.user.findUnique({
-      where: { user_id },
-    });
+      await this.emailAction.sendVerificationEmail(created);
+    } catch (error) {
+      throw error;
+    }
+  };
 
-    if (!user) throw new ApiError(401, 'Invalid token');
+  verify = async (user_id: string) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { user_id },
+      });
+      if (!user) throw new ApiError(401, 'Invalid token');
 
-    user.password = await generateHash(password);
-    await prisma.user.update({
-      where: { user_id: user.user_id },
-      data: { password },
-    });
+      user.is_verified = true;
+      await prisma.user.update({
+        where: { user_id: user.user_id },
+        data: { is_verified: true },
+      });
 
-    return user;
-  }
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  setPassword = async (user_id: string, password: string) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { user_id },
+      });
+
+      if (!user) throw new ApiError(401, 'Invalid token');
+
+      const hashed = await generateHash(password);
+      await prisma.user.update({
+        where: { user_id: user.user_id },
+        data: { password: hashed },
+      });
+
+      const access_token = generateAccessToken({
+        user_id: user.user_id,
+        fullname: user.fullname,
+        email: user.email,
+        avatar_url: user.avatar_url,
+        role: user.role,
+      });
+
+      const refresh_token = generateRefreshToken({
+        user_id: user.user_id,
+        email: user.email,
+      });
+
+      return { access_token, refresh_token };
+    } catch (error) {
+      throw error;
+    }
+  };
 }

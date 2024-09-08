@@ -5,24 +5,31 @@ import * as React from 'react';
 import { User } from '@/types/user';
 import axios from '@/lib/axios';
 import { isAxiosError } from 'axios';
-import { useLocalStorage } from '@uidotdev/usehooks';
+import { useLocalStorage } from 'usehooks-ts';
+import { useToast } from '@/hooks/use-toast';
 
 interface AuthContextProps {
   user: User | null;
   token: string | null;
-  signin: (data: any) => void;
-  signout: () => void;
+  signin: (data: { email: string; password: string }) => Promise<void>;
+  signup: (data: { email: string; fullname: string; phone: string }) => Promise<void>;
+  authenticate: (data: { password: string; token: string }) => Promise<void>;
+  signout: () => Promise<void>;
 }
 
 const AuthContext = React.createContext<AuthContextProps>({
   user: null,
   token: null,
-  signin: () => {},
-  signout: () => {},
+  signin: async () => {},
+  signup: async () => {},
+  authenticate: async () => {},
+  signout: async () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [token, setToken] = useLocalStorage('access_token', null);
+  const { toast } = useToast();
+
+  const [token, setToken] = useLocalStorage<string | null>('access_token', null);
   const [user, setUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
@@ -30,32 +37,44 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       const getUser = async () => {
         try {
           const { data } = await axios.get('/auth/profile');
-          setUser(data);
-        } catch (error) {
-          if (isAxiosError(error)) console.error(error.response?.data?.message);
-          console.error(error);
+          setUser(data.data);
+        } catch (error: any) {
+          toast({
+            variant: 'destructive',
+            title: 'Failed to get user profile',
+            description: error.message,
+          });
         }
       };
 
       getUser();
-    }
-  }, [token]);
+    } else setUser(null);
+  }, [token, toast]);
 
   const signin = async ({ email, password }: { email: string; password: string }) => {
-    try {
-      const { data } = await axios.post('/auth/login', { email, password });
-      setToken(data.access_token);
-    } catch (error) {
-      if (isAxiosError(error)) console.error(error.response?.data?.message);
-      console.error(error);
-    }
+    const { data } = await axios.post('/auth/login', { email, password });
+    setToken(data.data.access_token);
+  };
+
+  const signup = async ({ email, fullname, phone }: { email: string; fullname: string; phone: string }) => {
+    await axios.post('/auth/register', { email, fullname, phone });
+  };
+
+  const authenticate = async ({ password, token }: { password: string; token: string }) => {
+    const { data } = await axios.post('/auth/set-password', { password, token });
+    setToken(data.data.access_token);
   };
 
   const signout = async () => {
+    await axios.post('/auth/logout');
     setToken(null);
   };
 
-  return <AuthContext.Provider value={{ user, token, signin, signout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, token, signin, signup, authenticate, signout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export default AuthContext;

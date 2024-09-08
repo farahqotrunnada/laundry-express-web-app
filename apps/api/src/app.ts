@@ -1,6 +1,7 @@
+import { FRONTEND_URL, PORT } from '@/config';
 import express, { Express, NextFunction, Request, Response } from 'express';
 
-import { PORT } from '@/config';
+import ApiError from '@/utils/api.error';
 import cookie from 'cookie-parser';
 import cors from 'cors';
 import v1Router from '@/routers/v1/index.routes';
@@ -16,29 +17,16 @@ export default class App {
   }
 
   private configure(): void {
-    this.app.use(cors());
+    this.app.use(
+      cors({
+        origin: 'http://localhost:3000',
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,
+      })
+    );
     this.app.use(cookie());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: true }));
-  }
-
-  private handleError(): void {
-    this.app.use((req: Request, res: Response, next: NextFunction) => {
-      if (req.path.includes('/api/')) {
-        res.status(404).send('Not found !');
-      } else {
-        next();
-      }
-    });
-
-    this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-      if (req.path.includes('/api/')) {
-        console.error('Error : ', err.stack);
-        res.status(500).send('Error !');
-      } else {
-        next();
-      }
-    });
   }
 
   private routes(): void {
@@ -49,6 +37,19 @@ export default class App {
     });
 
     this.app.use('/api/v1', v1.getRouter());
+  }
+
+  private handleError(): void {
+    this.app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+      if (err instanceof ApiError) {
+        return res.status(err.status).json({
+          message: err.message,
+        });
+      }
+
+      console.error('Error : ', err.stack);
+      res.status(500).send('Error !');
+    });
   }
 
   public start(): void {

@@ -2,12 +2,18 @@ import base, { AxiosRequestConfig } from 'axios';
 
 import { BACKEND_URL } from '@/lib/constant';
 
-const axios = base.create({ baseURL: BACKEND_URL });
+const axios = base.create({
+  baseURL: BACKEND_URL,
+  withCredentials: true,
+});
 
 axios.interceptors.request.use(
   async (config) => {
-    const token = window.sessionStorage.getItem('access_token');
-    if (token) config.headers['Authorization'] = `Bearer ${token}`;
+    const token = window.localStorage.getItem('access_token');
+    if (token) {
+      const clean = token.slice(1, token.length - 1);
+      config.headers['Authorization'] = `Bearer ${clean}`;
+    }
     return config;
   },
   (error) => {
@@ -18,8 +24,12 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401 && !window.location.href.includes('/login')) {
-      window.location.pathname = '/login';
+    if (
+      error.response.status === 401 &&
+      !window.location.href.includes('/auth') &&
+      !window.location.href.includes('/auth')
+    ) {
+      window.location.pathname = '/auth/login';
     }
     return Promise.reject((error.response && error.response.data) || 'Wrong Services');
   }
