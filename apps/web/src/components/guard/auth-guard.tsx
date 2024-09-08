@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import Loader from '@/components/loader';
+import FullscreenLoader from '../loader/fullscreen';
 import { useAuth } from '@/hooks/use-auth';
 
 type Role = 'Driver' | 'Customer' | 'Superadmin' | 'OutletAdmin' | 'WashingWorker' | 'IroningWorker' | 'PackingWorker';
@@ -31,7 +31,7 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ allowed, children }) => {
     } else window.location.href = '/auth/login';
   }, [token, allowed]);
 
-  if (loading) return <Loader />;
+  if (loading) return <FullscreenLoader />;
   return <>{children}</>;
 };
 

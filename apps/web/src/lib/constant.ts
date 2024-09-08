@@ -1,16 +1,4 @@
-import {
-  Heart,
-  Home,
-  LineChart,
-  Lock,
-  PersonStanding,
-  Shirt,
-  ShoppingCart,
-  Timer,
-  Users,
-  Zap,
-  ZoomIn,
-} from 'lucide-react';
+import { Car, Heart, Home, Lock, PersonStanding, Shirt, ShoppingCart, Timer, Users, Zap, ZoomIn } from 'lucide-react';
 
 import { SidebarMenu } from '@/types/navigation';
 
@@ -20,9 +8,9 @@ export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 export const SIDEBAR_LINKS: SidebarMenu[] = [
   { title: 'Dashboard', href: '/dashboard', icon: Home, badge: 6, active: true },
   { title: 'Orders', href: '/dashboard/orders', icon: ShoppingCart },
-  { title: 'Laundry Item', href: '/dashboard/laundry-item', icon: Shirt },
-  { title: 'Customers', href: '#', icon: Users },
-  { title: 'Analytics', href: '#', icon: LineChart },
+  { title: 'Laundry Item', href: '/dashboard/laundry-items', icon: Shirt },
+  { title: 'Customers', href: '/dashboard/customers', icon: Users },
+  { title: 'Deliveries', href: '/dashboard/deliveries', icon: Car },
 ];
 
 export const FEATURES_LIST = [

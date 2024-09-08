@@ -29,6 +29,7 @@ axios.interceptors.response.use(
       !window.location.href.includes('/auth') &&
       !window.location.href.includes('/auth')
     ) {
+      window.localStorage.removeItem('access_token');
       window.location.pathname = '/auth/login';
     }
     return Promise.reject((error.response && error.response.data) || 'Wrong Services');

@@ -6,7 +6,7 @@ interface LoaderProps {
   //
 }
 
-const Loader: React.FC<LoaderProps> = ({ ...props }) => {
+const FullscreenLoader: React.FC<LoaderProps> = ({ ...props }) => {
   return (
     <div className='w-screen h-screen flex items-center justify-center'>
       <Loader2 className='size-10 animate-spin text-primary' />
@@ -14,4 +14,4 @@ const Loader: React.FC<LoaderProps> = ({ ...props }) => {
   );
 };
 
-export default Loader;
+export default FullscreenLoader;

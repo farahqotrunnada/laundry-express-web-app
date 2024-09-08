@@ -1,5 +1,3 @@
-import { PersonStanding, Timer, Zap, ZoomIn } from 'lucide-react';
-
 import { Badge } from '@/components/ui/badge';
 import { FEATURES_LIST } from '@/lib/constant';
 

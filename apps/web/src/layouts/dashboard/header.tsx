@@ -1,3 +1,5 @@
+'use client';
+
 import { Bell, CircleUser, Search } from 'lucide-react';
 import {
   DropdownMenu,
@@ -11,12 +13,15 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import SidebarDrawer from '@/layouts/dashboard/sidebar/drawer';
+import { useAuth } from '@/hooks/use-auth';
 
 interface HeaderProps {
   //
 }
 
 const Header: React.FC<HeaderProps> = ({ ...props }) => {
+  const { user } = useAuth();
+
   return (
     <header className='flex h-16 items-center gap-4 border-b bg-zinc-50 px-6'>
       <SidebarDrawer />
@@ -47,8 +52,8 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
               <span className='sr-only'>Toggle user menu</span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align='end'>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuContent align='end' className='w-56'>
+            <DropdownMenuLabel>{user ? user.fullname : 'My Account'}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
