@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 
 import ProfileForm from './_components/form';
 
@@ -13,10 +13,15 @@ export default async function Page({ ...props }: PageProps): Promise<React.JSX.E
     <>
       <Card x-chunk='dashboard-04-chunk-1'>
         <CardHeader>
-          <CardTitle>Store Name</CardTitle>
-          <CardDescription>Used to identify your store in the marketplace.</CardDescription>
+          <CardTitle className='text-xl font-bold'>User Profile</CardTitle>
+          <CardDescription>
+            Manage your profile and addresses, this information will be used to deliver your orders.
+          </CardDescription>
         </CardHeader>
-        <ProfileForm />
+
+        <CardContent>
+          <ProfileForm />
+        </CardContent>
       </Card>
     </>
   );

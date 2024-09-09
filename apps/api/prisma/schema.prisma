@@ -55,11 +55,15 @@ model CustomerAdress {
   customer_address_id String   @id @default(cuid())
   customer_id         String
   is_primary          Boolean  @default(false)
+  name                String   @default("Home")
   address             String
-  street              String
-  city                String
-  province            String
-  zipcode             String
+  formatted           String?
+  road                String?
+  city                String?
+  city_district       String?
+  region              String?
+  suburb              String?
+  zipcode             String?
   latitude            Decimal  @db.Decimal(11, 7)
   longitude           Decimal  @db.Decimal(11, 7)
   created_at          DateTime @default(now())
@@ -71,18 +75,21 @@ model CustomerAdress {
 }
 
 model Outlet {
-  outlet_id   String   @id @default(cuid())
-  name        String
-  description String
-  address     String
-  street      String
-  city        String
-  province    String
-  zipcode     String
-  latitude    Decimal  @db.Decimal(11, 7)
-  longitude   Decimal  @db.Decimal(11, 7)
-  created_at  DateTime @default(now())
-  updated_at  DateTime @updatedAt
+  outlet_id     String   @id @default(cuid())
+  name          String
+  description   String
+  address       String
+  formatted     String?
+  road          String?
+  city          String?
+  city_district String?
+  region        String?
+  suburb        String?
+  zipcode       String?
+  latitude      Decimal  @db.Decimal(11, 7)
+  longitude     Decimal  @db.Decimal(11, 7)
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
 
   Employee      Employee[]
   Delivery      Delivery[]

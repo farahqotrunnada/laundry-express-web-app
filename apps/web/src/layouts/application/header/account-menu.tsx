@@ -12,7 +12,7 @@ interface AccountMenuProps {
 }
 
 const AccountMenu: React.FC<AccountMenuProps> = ({ ...props }) => {
-  const { user, signout } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className='flex justify-end w-full gap-4'>

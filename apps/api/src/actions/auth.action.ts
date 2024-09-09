@@ -2,7 +2,6 @@ import { comparePasswords, generateAccessToken, generateHash, generateRefreshTok
 
 import ApiError from '@/utils/api.error';
 import EmailAction from '@/actions/email.action';
-import { JWT_SECRET } from '@/config';
 import prisma from '@/libs/prisma';
 
 export default class AuthAction {
@@ -18,11 +17,11 @@ export default class AuthAction {
         where: { email },
       });
 
-      if (!user) throw new ApiError(401, 'Invalid email or password');
-      if (!user.password || !user.is_verified) throw new ApiError(401, 'Please verify your email, to login');
+      if (!user) throw new ApiError(400, 'Invalid email or password');
+      if (!user.password || !user.is_verified) throw new ApiError(400, 'Please verify your email, to login');
 
       const valid = await comparePasswords(password, user.password);
-      if (!valid) throw new ApiError(401, 'Invalid email or password');
+      if (!valid) throw new ApiError(400, 'Invalid email or password');
 
       const access_token = generateAccessToken({
         user_id: user.user_id,
@@ -49,7 +48,7 @@ export default class AuthAction {
         where: { user_id },
       });
 
-      if (!user) throw new ApiError(401, 'Invalid token');
+      if (!user) throw new ApiError(404, 'User not found');
 
       return user;
     } catch (error) {
@@ -63,7 +62,7 @@ export default class AuthAction {
         where: { email },
       });
 
-      if (user) throw new ApiError(401, 'Email already exists');
+      if (user) throw new ApiError(400, 'Email already exists');
 
       const created = await prisma.user.create({
         data: {
@@ -84,7 +83,7 @@ export default class AuthAction {
       const user = await prisma.user.findUnique({
         where: { user_id },
       });
-      if (!user) throw new ApiError(401, 'Invalid token');
+      if (!user) throw new ApiError(404, 'User not found');
 
       user.is_verified = true;
       await prisma.user.update({
@@ -104,7 +103,7 @@ export default class AuthAction {
         where: { user_id },
       });
 
-      if (!user) throw new ApiError(401, 'Invalid token');
+      if (!user) throw new ApiError(404, 'User not found');
 
       const hashed = await generateHash(password);
       await prisma.user.update({
@@ -147,7 +146,7 @@ export default class AuthAction {
         where: { user_id },
       });
 
-      if (!user) throw new ApiError(401, 'Invalid token');
+      if (!user) throw new ApiError(404, 'User not found');
 
       const access_token = generateAccessToken({
         user_id: user.user_id,

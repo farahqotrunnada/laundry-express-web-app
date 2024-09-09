@@ -10,11 +10,11 @@ export class AuthMiddleware {
   header = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const authorization = req.headers.authorization;
-      if (!authorization) throw new ApiError(401, 'Unauthorized');
+      if (!authorization) throw new ApiError(401, 'Unauthorized, please login');
 
       const token = authorization.split(' ')[1];
       verify(token, JWT_SECRET, (error, decoded) => {
-        if (error) throw new ApiError(401, 'Unauthorized');
+        if (error) throw new ApiError(401, error.message);
         req.user = decoded;
         next();
       });
@@ -29,7 +29,7 @@ export class AuthMiddleware {
 
       const token = refresh_token as string;
       verify(token, JWT_SECRET, (error, decoded) => {
-        if (error) throw new ApiError(401, 'Unauthorized');
+        if (error) throw new ApiError(401, error.message);
         req.user = decoded;
         next();
       });
@@ -47,7 +47,7 @@ export class AuthMiddleware {
         .validate(req.query);
 
       verify(token, JWT_SECRET, (error, decoded) => {
-        if (error) throw new ApiError(401, 'Unauthorized');
+        if (error) throw new ApiError(401, error.message);
         req.user = decoded;
         next();
       });
@@ -65,7 +65,7 @@ export class AuthMiddleware {
         .validate(req.body);
 
       verify(token, JWT_SECRET, (error, decoded) => {
-        if (error) throw new ApiError(401, 'Unauthorized');
+        if (error) throw new ApiError(401, error.message);
         req.user = decoded;
         next();
       });

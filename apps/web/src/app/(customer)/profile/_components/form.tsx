@@ -3,14 +3,12 @@
 import * as React from 'react';
 import * as yup from 'yup';
 
-import { CardContent, CardFooter } from '@/components/ui/card';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/use-auth';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -60,8 +58,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ ...props }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
-        <CardContent className='grid gap-4'>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex flex-col space-y-6'>
+        <div className='grid gap-4'>
           <FormItem>
             <FormLabel>Email</FormLabel>
             <FormControl>
@@ -97,11 +95,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ ...props }) => {
               </FormItem>
             )}
           />
-        </CardContent>
+        </div>
 
-        <CardFooter className='border-t px-6 py-4'>
+        <div className='flex justify-start'>
           <Button type='submit'>Save</Button>
-        </CardFooter>
+        </div>
       </form>
     </Form>
   );

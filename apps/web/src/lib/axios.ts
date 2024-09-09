@@ -27,18 +27,22 @@ const interceptor = axios.interceptors.response.use(
 
     axios.interceptors.response.eject(interceptor);
 
-    return axios
-      .post('/auth/refresh')
-      .then(({ data }) => {
-        const token = `"${data.data.access_token}"`;
-        window.localStorage.setItem('access_token', token);
-        error.response.config.headers['Authorization'] = 'Bearer ' + token;
-        return axios(error.response.config);
-      })
-      .catch((err) => {
-        window.localStorage.removeItem('access_token');
-        return Promise.reject(err);
-      });
+    if (!window.location.href.includes('/auth')) {
+      return axios
+        .post('/auth/refresh')
+        .then(({ data }) => {
+          const token = `"${data.data.access_token}"`;
+          window.localStorage.setItem('access_token', token);
+          error.response.config.headers['Authorization'] = 'Bearer ' + token;
+          return axios(error.response.config);
+        })
+        .catch((err) => {
+          window.localStorage.removeItem('access_token');
+          return Promise.reject((err.response && err.response.data) || 'Wrong Services');
+        });
+    }
+
+    return Promise.reject((error.response && error.response.data) || 'Wrong Services');
   }
 );
 

@@ -34,23 +34,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
-    if (token) {
-      const getUser = async () => {
-        try {
-          const { data } = await axios.get('/auth/profile');
-          setUser(data.data);
-        } catch (error: any) {
-          toast({
-            variant: 'destructive',
-            title: 'Failed to get user profile',
-            description: error.message,
-          });
-        }
-      };
+    const getUser = async () => {
+      try {
+        const { data } = await axios.get('/profile');
+        setUser(data.data);
+      } catch (error: any) {
+        toast({
+          variant: 'destructive',
+          title: 'Failed to get user profile',
+          description: error.message,
+        });
+      }
+    };
 
-      getUser();
-    } else setUser(null);
-  }, [token, toast]);
+    getUser();
+  }, [token, toast, setToken]);
 
   const signin = async ({ email, password }: { email: string; password: string }) => {
     const { data } = await axios.post('/auth/login', { email, password });
@@ -67,7 +65,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const update = async ({ fullname, phone }: { fullname: string; phone: string }) => {
-    const { data } = await axios.put('/auth/profile', { fullname, phone });
+    const { data } = await axios.put('/profile', { fullname, phone });
     setUser(data.data);
   };
 

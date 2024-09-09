@@ -70,7 +70,6 @@ export default class AuthController {
   verify = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const user = req.user as EmailTokenPayload;
-      if (!user) throw new ApiError(401, 'Unauthorized');
 
       const { user_id } = user;
       await this.authAction.verify(user_id);
