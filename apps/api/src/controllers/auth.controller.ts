@@ -1,6 +1,6 @@
 import * as yup from 'yup';
 
-import { AccessTokenPayload, EmailTokenPayload } from '@/type/jwt';
+import { AccessTokenPayload, EmailTokenPayload, RefreshTokenPayload } from '@/type/jwt';
 import { NextFunction, Request, Response } from 'express';
 
 import ApiError from '@/utils/api.error';
@@ -136,6 +136,29 @@ export default class AuthController {
     try {
       res.clearCookie('refresh_token');
       return res.status(200).json(new ApiResponse('Logout successful'));
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  refresh = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const { user_id } = req.user as RefreshTokenPayload;
+
+      const { access_token, refresh_token } = await this.authAction.refresh(user_id);
+
+      res.cookie('refresh_token', refresh_token, {
+        httpOnly: true,
+        maxAge: 60 * 60 * 24 * 7,
+        sameSite: 'strict',
+        secure: process.env.NODE_ENV === 'production',
+      });
+
+      return res.status(200).json(
+        new ApiResponse('Refresh successful', {
+          access_token,
+        })
+      );
     } catch (error) {
       next(error);
     }

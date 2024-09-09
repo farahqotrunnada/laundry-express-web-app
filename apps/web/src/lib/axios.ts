@@ -10,10 +10,7 @@ const axios = base.create({
 axios.interceptors.request.use(
   async (config) => {
     const token = window.localStorage.getItem('access_token');
-    if (token) {
-      const clean = token.slice(1, token.length - 1);
-      config.headers['Authorization'] = `Bearer ${clean}`;
-    }
+    if (token) config.headers['Authorization'] = 'Bearer ' + token.slice(1, token.length - 1);
     return config;
   },
   (error) => {
@@ -21,18 +18,27 @@ axios.interceptors.request.use(
   }
 );
 
-axios.interceptors.response.use(
+const interceptor = axios.interceptors.response.use(
   (response) => response,
-  (error) => {
-    if (
-      error.response.status === 401 &&
-      !window.location.href.includes('/auth') &&
-      !window.location.href.includes('/auth')
-    ) {
-      window.localStorage.removeItem('access_token');
-      window.location.pathname = '/auth/login';
+  async (error) => {
+    if (error.response.status !== 401) {
+      return Promise.reject((error.response && error.response.data) || 'Wrong Services');
     }
-    return Promise.reject((error.response && error.response.data) || 'Wrong Services');
+
+    axios.interceptors.response.eject(interceptor);
+
+    return axios
+      .post('/auth/refresh')
+      .then(({ data }) => {
+        const token = `"${data.data.access_token}"`;
+        window.localStorage.setItem('access_token', token);
+        error.response.config.headers['Authorization'] = 'Bearer ' + token;
+        return axios(error.response.config);
+      })
+      .catch((err) => {
+        window.localStorage.removeItem('access_token');
+        return Promise.reject(err);
+      });
   }
 );
 

@@ -21,6 +21,7 @@ export default class AuthRouter {
     this.router.post('/set-password', this.authMiddleware.body, this.authController.setPassword);
     this.router.get('/profile', this.authMiddleware.header, this.authController.profile);
     this.router.post('/logout', this.authController.logout);
+    this.router.post('/refresh', this.authMiddleware.cookie, this.authController.refresh);
   }
 
   getRouter(): Router {

@@ -130,4 +130,31 @@ export default class AuthAction {
       throw error;
     }
   };
+
+  refresh = async (user_id: string) => {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { user_id },
+      });
+
+      if (!user) throw new ApiError(401, 'Invalid token');
+
+      const access_token = generateAccessToken({
+        user_id: user.user_id,
+        fullname: user.fullname,
+        email: user.email,
+        avatar_url: user.avatar_url,
+        role: user.role,
+      });
+
+      const refresh_token = generateRefreshToken({
+        user_id: user.user_id,
+        email: user.email,
+      });
+
+      return { access_token, refresh_token };
+    } catch (error) {
+      throw error;
+    }
+  };
 }
