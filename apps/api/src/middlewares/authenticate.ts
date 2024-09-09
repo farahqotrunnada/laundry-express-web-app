@@ -13,12 +13,11 @@ export class AuthMiddleware {
       if (!authorization) throw new ApiError(401, 'Unauthorized');
 
       const token = authorization.split(' ')[1];
-      const payload = verify(token, JWT_SECRET);
-      if (!payload) throw new ApiError(401, 'Unauthorized');
-
-      req.user = payload;
-
-      next();
+      verify(token, JWT_SECRET, (error, decoded) => {
+        if (error) throw new ApiError(401, 'Unauthorized');
+        req.user = decoded;
+        next();
+      });
     } catch (error) {
       next(error);
     }
@@ -28,11 +27,12 @@ export class AuthMiddleware {
     try {
       const { refresh_token } = req.cookies;
 
-      const payload = verify(refresh_token, JWT_SECRET);
-      if (!payload) throw new ApiError(401, 'Unauthorized');
-
-      req.user = payload;
-      next();
+      const token = refresh_token as string;
+      verify(token, JWT_SECRET, (error, decoded) => {
+        if (error) throw new ApiError(401, 'Unauthorized');
+        req.user = decoded;
+        next();
+      });
     } catch (error) {
       next(error);
     }
@@ -46,11 +46,11 @@ export class AuthMiddleware {
         })
         .validate(req.query);
 
-      const payload = verify(token, JWT_SECRET);
-      if (!payload) throw new ApiError(401, 'Unauthorized');
-
-      req.user = payload;
-      next();
+      verify(token, JWT_SECRET, (error, decoded) => {
+        if (error) throw new ApiError(401, 'Unauthorized');
+        req.user = decoded;
+        next();
+      });
     } catch (error) {
       next(error);
     }
@@ -64,11 +64,11 @@ export class AuthMiddleware {
         })
         .validate(req.body);
 
-      const payload = verify(token, JWT_SECRET);
-      if (!payload) throw new ApiError(401, 'Unauthorized');
-
-      req.user = payload;
-      next();
+      verify(token, JWT_SECRET, (error, decoded) => {
+        if (error) throw new ApiError(401, 'Unauthorized');
+        req.user = decoded;
+        next();
+      });
     } catch (error) {
       next(error);
     }

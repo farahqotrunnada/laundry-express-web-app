@@ -1,9 +1,10 @@
-import { Droplets, Menu } from 'lucide-react';
+import { PROJECT_NAME, SIDEBAR_LINKS } from '@/lib/constant';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
+import AppIcon from '@/components/app-icon';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { SIDEBAR_LINKS } from '@/lib/constant';
+import { Menu } from 'lucide-react';
 import SidebarCard from './card';
 import SidebarLink from '@/layouts/dashboard/sidebar/sidelink';
 
@@ -21,9 +22,9 @@ const SidebarDrawer: React.FC<DrawerProps> = ({ ...props }) => {
         </Button>
       </SheetTrigger>
       <SheetContent side='left' className='flex flex-col'>
-        <Link href='#' className='flex items-center gap-2 px-3 text-lg font-semibold'>
-          <Droplets className='h-6 w-6' />
-          <span>{process.env.NEXT_PUBLIC_APP_NAME}</span>
+        <Link href='/' className='flex items-center gap-2 px-3 text-lg font-semibold'>
+          <AppIcon className='h-6 w-6' />
+          <span>{PROJECT_NAME}</span>
         </Link>
 
         <nav className='grid items-start gap-1 text-sm font-medium mt-6'>

@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import FullscreenLoader from '../loader/fullscreen';
 import { useAuth } from '@/hooks/use-auth';
+import { useRouter } from 'next/navigation';
 
 type Role = 'Driver' | 'Customer' | 'Superadmin' | 'OutletAdmin' | 'WashingWorker' | 'IroningWorker' | 'PackingWorker';
 
@@ -12,6 +13,7 @@ interface AuthGuardProps extends React.PropsWithChildren {
 }
 
 const AuthGuard: React.FC<AuthGuardProps> = ({ allowed, children }) => {
+  const router = useRouter();
   const { token } = useAuth();
   const [loading, setLoading] = React.useState(true);
 
@@ -23,13 +25,13 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ allowed, children }) => {
           body: JSON.stringify({ token, allowed }),
         });
         const json = await res.json();
-        if (!json.protected) window.location.href = '/';
+        if (!json.protected) router.push('/');
       };
 
       verify();
       setLoading(false);
     } else window.location.href = '/auth/login';
-  }, [token, allowed]);
+  }, [token, allowed, router]);
 
   if (loading) return <FullscreenLoader />;
   return <>{children}</>;

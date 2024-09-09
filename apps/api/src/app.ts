@@ -1,7 +1,7 @@
-import { FRONTEND_URL, PORT } from '@/config';
 import express, { Express, NextFunction, Request, Response } from 'express';
 
 import ApiError from '@/utils/api.error';
+import { PORT } from '@/config';
 import cookie from 'cookie-parser';
 import cors from 'cors';
 import v1Router from '@/routers/v1/index.routes';
