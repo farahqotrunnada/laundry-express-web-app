@@ -23,10 +23,12 @@ const Header: React.FC<HeaderProps> = ({ menus }) => {
       <div className='container relative min-h-20 flex gap-4 flex-row lg:grid lg:grid-cols-3 items-center'>
         <AppMenu menus={menus} />
 
-        <div className='flex lg:justify-center items-center space-x-2 font-semibold'>
-          <AppIcon className='h-6 w-6' />
-          <p className=' whitespace-nowrap'>{PROJECT_NAME}</p>
-        </div>
+        <Link href='/'>
+          <div className='flex lg:justify-center items-center space-x-2 font-semibold'>
+            <AppIcon className='h-6 w-6' />
+            <p className=' whitespace-nowrap'>{PROJECT_NAME}</p>
+          </div>
+        </Link>
 
         <AccountMenu />
 
@@ -37,22 +39,14 @@ const Header: React.FC<HeaderProps> = ({ menus }) => {
 
           {isOpen && (
             <div className='absolute top-20 border-t flex flex-col w-full right-0 bg-background shadow-lg py-4 container gap-8'>
-              {menus.map((item) => (
-                <div key={item.title}>
+              {menus.map((menu) => (
+                <div key={menu.title}>
                   <div className='flex flex-col gap-2'>
-                    {item.href ? (
-                      <Link href={item.href} className='flex justify-between items-center'>
-                        <span>{item.title}</span>
+                    {menu.items.map((subItem) => (
+                      <Link key={subItem.title} href={subItem.href} className='flex justify-between items-center'>
+                        <span className='text-muted-foreground'>{subItem.title}</span>
                       </Link>
-                    ) : (
-                      <p>{item.title}</p>
-                    )}
-                    {item.items &&
-                      item.items.map((subItem) => (
-                        <Link key={subItem.title} href={subItem.href} className='flex justify-between items-center'>
-                          <span className='text-muted-foreground'>{subItem.title}</span>
-                        </Link>
-                      ))}
+                    ))}
                   </div>
                 </div>
               ))}

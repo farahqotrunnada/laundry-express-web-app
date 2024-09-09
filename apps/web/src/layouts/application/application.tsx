@@ -10,15 +10,26 @@ interface ApplicationProps extends React.PropsWithChildren {
 
 export default async function Application({ children }: ApplicationProps): Promise<React.JSX.Element> {
   const menus: NavigationItem[] = [
-    { title: 'Home', href: '/', description: '' },
     {
       title: 'Product',
       description: 'Managing a small business today is already tough.',
       items: [
-        { title: 'Reports', href: '/reports' },
-        { title: 'Statistics', href: '/statistics' },
-        { title: 'Dashboards', href: '/dashboards' },
-        { title: 'Recordings', href: '/recordings' },
+        {
+          title: 'Reports',
+          href: '/reports',
+          description: 'Overview of all reports',
+        },
+        { title: 'Statistics', href: '/statistics', description: 'Reports on the performance of the business' },
+        {
+          title: 'Dashboards',
+          href: '/dashboards',
+          description: 'Dashboards to monitor the performance of the business',
+        },
+        {
+          title: 'Recordings',
+          href: '/recordings',
+          description: 'Recordings of all the business activities',
+        },
       ],
     },
     {

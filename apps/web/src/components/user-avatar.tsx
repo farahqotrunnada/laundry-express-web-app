@@ -9,8 +9,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { AVATAR_LINKS } from '@/lib/constant';
 import { Button } from '@/components/ui/button';
 import { CircleUser } from 'lucide-react';
+import Link from 'next/link';
 import { User } from '@/types/user';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
@@ -52,10 +54,13 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ user }) => {
       <DropdownMenuContent align='end' className='w-56'>
         <DropdownMenuLabel>{user.fullname}</DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Settings</DropdownMenuItem>
-        <DropdownMenuItem>Support</DropdownMenuItem>
+        {AVATAR_LINKS.map((link) => (
+          <Link key={link.title} href={link.href}>
+            <DropdownMenuItem className='cursor-pointer'>{link.title}</DropdownMenuItem>
+          </Link>
+        ))}
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => signout()}>Logout</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => handleSignout()}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
