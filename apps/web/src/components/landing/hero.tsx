@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MoveRight } from 'lucide-react';
-import useGeoLocation from '@/hooks/useLocation';
 
 interface HeroProps {
   //

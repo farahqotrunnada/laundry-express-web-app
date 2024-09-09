@@ -112,6 +112,16 @@ export default class AuthAction {
         data: { password: hashed },
       });
 
+      await prisma.customer.create({
+        data: {
+          User: {
+            connect: {
+              user_id: user.user_id,
+            },
+          },
+        },
+      });
+
       const access_token = generateAccessToken({
         user_id: user.user_id,
         fullname: user.fullname,

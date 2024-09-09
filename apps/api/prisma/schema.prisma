@@ -44,8 +44,8 @@ model User {
 model Customer {
   customer_id String @id @default(cuid())
   user_id     String @unique
-  User        User   @relation(fields: [user_id], references: [user_id])
 
+  User           User             @relation(fields: [user_id], references: [user_id])
   CustomerAdress CustomerAdress[]
 
   @@map("customers")

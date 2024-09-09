@@ -9,7 +9,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useAuth } from '@/hooks/use-auth';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { yupResolver } from '@hookform/resolvers/yup';
 
@@ -23,7 +22,6 @@ const loginSchema = yup.object({
 });
 
 const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
-  const router = useRouter();
   const { toast } = useToast();
   const { signin } = useAuth();
 
@@ -42,7 +40,6 @@ const LoginForm: React.FC<LoginFormProps> = ({ ...props }) => {
         title: 'Login successful',
         description: 'logged in successfully',
       });
-      // router.push('/');
     } catch (error: any) {
       toast({
         variant: 'destructive',

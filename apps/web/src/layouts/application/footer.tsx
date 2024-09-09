@@ -1,5 +1,7 @@
+import AppIcon from '@/components/app-icon';
 import Link from 'next/link';
 import { NavigationItem } from '@/types/navigation';
+import { PROJECT_NAME } from '@/lib/constant';
 
 interface FooterProps {
   menus: NavigationItem[];
@@ -12,9 +14,10 @@ const Footer: React.FC<FooterProps> = ({ menus }) => {
         <div className='grid lg:grid-cols-2 gap-10 items-center'>
           <div className='flex gap-8 flex-col items-start'>
             <div className='flex gap-2 flex-col'>
-              <h2 className='text-2xl tracking-tighter max-w-xl font-bold text-left'>
-                {process.env.NEXT_PUBLIC_APP_NAME}
-              </h2>
+              <Link href='/' className='flex items-center gap-2 text-lg font-semibold'>
+                <AppIcon className='h-6 w-6' />
+                <span>{PROJECT_NAME}</span>
+              </Link>
               <p className='text-lg max-w-lg leading-relaxed tracking-tight text-background/75 text-left'>
                 Managing a small business today is already tough.
               </p>
@@ -35,13 +38,7 @@ const Footer: React.FC<FooterProps> = ({ menus }) => {
             {menus.map((item) => (
               <div key={item.title} className='flex text-base gap-1 flex-col items-start'>
                 <div className='flex flex-col gap-2'>
-                  {item.href ? (
-                    <Link href={item.href} className='flex justify-between items-center'>
-                      <span className='text-lg'>{item.title}</span>
-                    </Link>
-                  ) : (
-                    <p>{item.title}</p>
-                  )}
+                  <p>{item.title}</p>
                   {item.items &&
                     item.items.map((subItem) => (
                       <Link key={subItem.title} href={subItem.href} className='flex justify-between items-center'>

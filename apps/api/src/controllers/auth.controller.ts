@@ -43,19 +43,6 @@ export default class AuthController {
     }
   };
 
-  profile = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const user = req.user as AccessTokenPayload;
-      if (!user) throw new ApiError(401, 'Unauthorized');
-
-      const { password, ...rest } = await this.authAction.profile(user.user_id);
-
-      return res.status(200).json(new ApiResponse('Profile', rest));
-    } catch (error) {
-      next(error);
-    }
-  };
-
   register = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, fullname, phone } = await yup

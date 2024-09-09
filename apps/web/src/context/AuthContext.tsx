@@ -4,7 +4,6 @@ import * as React from 'react';
 
 import { User } from '@/types/user';
 import axios from '@/lib/axios';
-import { isAxiosError } from 'axios';
 import { useLocalStorage } from 'usehooks-ts';
 import { useToast } from '@/hooks/use-toast';
 
@@ -14,6 +13,7 @@ interface AuthContextProps {
   signin: (data: { email: string; password: string }) => Promise<void>;
   signup: (data: { email: string; fullname: string; phone: string }) => Promise<void>;
   authenticate: (data: { password: string; token: string }) => Promise<void>;
+  update: (data: { fullname: string; phone: string }) => Promise<void>;
   signout: () => Promise<void>;
 }
 
@@ -23,6 +23,7 @@ const AuthContext = React.createContext<AuthContextProps>({
   signin: async () => {},
   signup: async () => {},
   authenticate: async () => {},
+  update: async () => {},
   signout: async () => {},
 });
 
@@ -65,13 +66,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setToken(data.data.access_token);
   };
 
+  const update = async ({ fullname, phone }: { fullname: string; phone: string }) => {
+    const { data } = await axios.put('/auth/profile', { fullname, phone });
+    setUser(data.data);
+  };
+
   const signout = async () => {
     await axios.post('/auth/logout');
     setToken(null);
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, signin, signup, authenticate, signout }}>
+    <AuthContext.Provider value={{ user, token, signin, signup, authenticate, update, signout }}>
       {children}
     </AuthContext.Provider>
   );
