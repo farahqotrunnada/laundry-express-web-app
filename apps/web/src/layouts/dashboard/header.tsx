@@ -1,18 +1,11 @@
 'use client';
 
-import { Bell, CircleUser, Search } from 'lucide-react';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+import { Bell, Search } from 'lucide-react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import SidebarDrawer from '@/layouts/dashboard/sidebar/drawer';
+import UserAvatar from '@/components/user-avatar';
 import { useAuth } from '@/hooks/use-auth';
 
 interface HeaderProps {
@@ -45,22 +38,7 @@ const Header: React.FC<HeaderProps> = ({ ...props }) => {
           <span className='sr-only'>Toggle notifications</span>
         </Button>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant='secondary' size='icon' className='rounded-full'>
-              <CircleUser className='size-5' />
-              <span className='sr-only'>Toggle user menu</span>
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align='end' className='w-56'>
-            <DropdownMenuLabel>{user ? user.fullname : 'My Account'}</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem>Support</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        {user && <UserAvatar user={user} />}
       </div>
     </header>
   );

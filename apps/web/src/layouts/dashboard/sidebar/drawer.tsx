@@ -1,3 +1,5 @@
+'use client';
+
 import { PROJECT_NAME, SIDEBAR_LINKS } from '@/lib/constant';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
@@ -7,12 +9,15 @@ import Link from 'next/link';
 import { Menu } from 'lucide-react';
 import SidebarCard from './card';
 import SidebarLink from '@/layouts/dashboard/sidebar/sidelink';
+import { usePathname } from 'next/navigation';
 
 interface DrawerProps {
   //
 }
 
 const SidebarDrawer: React.FC<DrawerProps> = ({ ...props }) => {
+  const pathname = usePathname();
+
   return (
     <Sheet>
       <SheetTrigger asChild>
@@ -29,7 +34,7 @@ const SidebarDrawer: React.FC<DrawerProps> = ({ ...props }) => {
 
         <nav className='grid items-start gap-1 text-sm font-medium mt-6'>
           {SIDEBAR_LINKS.map((link) => (
-            <SidebarLink key={link.title} link={link} />
+            <SidebarLink key={link.title} link={link} path={pathname} />
           ))}
         </nav>
 

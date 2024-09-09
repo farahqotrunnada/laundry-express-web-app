@@ -2,6 +2,7 @@ import express, { Express, NextFunction, Request, Response } from 'express';
 
 import ApiError from '@/utils/api.error';
 import { PORT } from '@/config';
+import { ValidationError } from 'yup';
 import cookie from 'cookie-parser';
 import cors from 'cors';
 import v1Router from '@/routers/v1/index.routes';
@@ -44,6 +45,12 @@ export default class App {
       if (err instanceof ApiError) {
         return res.status(err.status).json({
           message: err.message,
+        });
+      }
+
+      if (err instanceof ValidationError) {
+        return res.status(400).json({
+          ...err,
         });
       }
 

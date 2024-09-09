@@ -6,7 +6,7 @@ export const PROJECT_NAME = process.env.NEXT_PUBLIC_PROJECT_NAME as string;
 export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL as string;
 
 export const SIDEBAR_LINKS: SidebarMenu[] = [
-  { title: 'Dashboard', href: '/dashboard', icon: Home, badge: 6, active: true },
+  { title: 'Dashboard', href: '/dashboard', icon: Home, badge: 6 },
   { title: 'Orders', href: '/dashboard/orders', icon: ShoppingCart },
   { title: 'Laundry Item', href: '/dashboard/laundry-items', icon: Shirt },
   { title: 'Customers', href: '/dashboard/customers', icon: Users },

@@ -15,5 +15,4 @@ export interface SidebarMenu {
   href: string;
   icon: React.FC<React.SVGProps<SVGSVGElement>>;
   badge?: number | string;
-  active?: boolean;
 }

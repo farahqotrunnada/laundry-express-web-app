@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import UserAvatar from '@/components/user-avatar';
 import { useAuth } from '@/hooks/use-auth';
 
 interface AccountMenuProps {
@@ -15,19 +16,8 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ ...props }) => {
 
   return (
     <div className='flex justify-end w-full gap-4'>
-      {user && (
-        <>
-          <Button variant='ghost' className='hidden md:inline'>
-            {user.fullname}
-          </Button>
-          <div className='border-r hidden md:inline'></div>
-        </>
-      )}
-
       {user ? (
-        <Button variant='outline' onClick={() => signout()}>
-          Sign out
-        </Button>
+        <UserAvatar user={user} />
       ) : (
         <Link href='/auth/login'>
           <Button variant='outline'>Sign in</Button>
@@ -35,7 +25,7 @@ const AccountMenu: React.FC<AccountMenuProps> = ({ ...props }) => {
       )}
 
       <Link href='/dashboard' className='hidden md:block'>
-        <Button>Get started</Button>
+        <Button>Dashboard</Button>
       </Link>
     </div>
   );

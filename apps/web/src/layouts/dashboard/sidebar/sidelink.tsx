@@ -5,9 +5,10 @@ import { cn } from '@/lib/utils';
 
 interface SidebarMenuProps extends React.PropsWithChildren {
   link: SidebarMenu;
+  path: string;
 }
 
-const SidebarLink: React.FC<SidebarMenuProps> = ({ link }) => {
+const SidebarLink: React.FC<SidebarMenuProps> = ({ link, path }) => {
   const Icon = link.icon;
 
   return (
@@ -15,7 +16,7 @@ const SidebarLink: React.FC<SidebarMenuProps> = ({ link }) => {
       href={link.href}
       className={cn(
         'flex items-center gap-3 rounded-lg p-3 text-muted-foreground transition-all hover:text-primary',
-        link.active && 'bg-accent text-foreground'
+        path === link.href && 'bg-accent text-foreground hover:text-foreground'
       )}>
       <Icon className='size-5' />
       {link.title}
