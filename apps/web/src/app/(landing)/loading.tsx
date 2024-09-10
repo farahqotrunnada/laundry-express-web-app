@@ -1,7 +1,7 @@
 import * as React from 'react';
 
-import FullscreenLoader from '@/components/loader/fullscreen';
+import Loader from '@/components/loader/loader';
 
 export default async function Loading(): Promise<React.JSX.Element> {
-  return <FullscreenLoader />;
+  return <Loader />;
 }

@@ -34,20 +34,33 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = React.useState<User | null>(null);
 
   React.useEffect(() => {
-    const getUser = async () => {
-      try {
-        const { data } = await axios.get('/profile');
-        setUser(data.data);
-      } catch (error: any) {
-        toast({
-          variant: 'destructive',
-          title: 'Failed to get user profile',
-          description: error.message,
-        });
-      }
-    };
+    if (token) {
+      const getUser = async () => {
+        try {
+          const { data } = await axios.get('/profile');
+          setUser(data.data);
+        } catch (error: any) {
+          toast({
+            variant: 'destructive',
+            title: 'Failed to get user profile',
+            description: error.message,
+          });
+        }
+      };
 
-    getUser();
+      getUser();
+    } else {
+      const refresh = async () => {
+        try {
+          const { data } = await axios.post('/auth/refresh');
+          setToken(data.data.access_token);
+        } catch (error: any) {
+          console.log('unauthenticated');
+        }
+      };
+
+      refresh();
+    }
   }, [token, toast, setToken]);
 
   const signin = async ({ email, password }: { email: string; password: string }) => {
@@ -72,6 +85,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signout = async () => {
     await axios.post('/auth/logout');
     setToken(null);
+    setUser(null);
   };
 
   return (

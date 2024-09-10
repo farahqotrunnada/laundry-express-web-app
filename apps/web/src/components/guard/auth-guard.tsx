@@ -5,6 +5,7 @@ import * as React from 'react';
 import FullscreenLoader from '../loader/fullscreen';
 import { useAuth } from '@/hooks/use-auth';
 import { useRouter } from 'next/navigation';
+import { useToast } from '@/hooks/use-toast';
 
 type Role = 'Driver' | 'Customer' | 'Superadmin' | 'OutletAdmin' | 'WashingWorker' | 'IroningWorker' | 'PackingWorker';
 
@@ -14,8 +15,9 @@ interface AuthGuardProps extends React.PropsWithChildren {
 
 const AuthGuard: React.FC<AuthGuardProps> = ({ allowed, children }) => {
   const router = useRouter();
+  const { toast } = useToast();
   const { token } = useAuth();
-  const [loading, setLoading] = React.useState(true);
+  const [authhorized, setAuthhorized] = React.useState(false);
 
   React.useEffect(() => {
     if (token) {
@@ -25,15 +27,27 @@ const AuthGuard: React.FC<AuthGuardProps> = ({ allowed, children }) => {
           body: JSON.stringify({ token, allowed }),
         });
         const json = await res.json();
-        if (!json.protected) router.push('/');
+
+        if (json.protected) {
+          router.push('/');
+          toast({
+            title: 'You are not authorized',
+            description: 'Please login with your credentials',
+          });
+        } else setAuthhorized(true);
       };
 
       verify();
-      setLoading(false);
-    } else window.location.href = '/auth/login';
-  }, [token, allowed, router]);
+    } else {
+      window.location.href = '/auth/login';
+      toast({
+        title: 'You are not logged in',
+        description: 'Please login with your credentials',
+      });
+    }
+  }, [token, allowed, router, toast]);
 
-  if (loading) return <FullscreenLoader />;
+  if (!authhorized) return <FullscreenLoader />;
   return <>{children}</>;
 };
 
