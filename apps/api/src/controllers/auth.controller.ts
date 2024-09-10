@@ -1,9 +1,8 @@
 import * as yup from 'yup';
 
-import { AccessTokenPayload, EmailTokenPayload, RefreshTokenPayload } from '@/type/jwt';
+import { EmailTokenPayload, RefreshTokenPayload } from '@/type/jwt';
 import { NextFunction, Request, Response } from 'express';
 
-import ApiError from '@/utils/api.error';
 import ApiResponse from '@/utils/api.response';
 import AuthAction from '@/actions/auth.action';
 import { FRONTEND_URL } from '@/config';

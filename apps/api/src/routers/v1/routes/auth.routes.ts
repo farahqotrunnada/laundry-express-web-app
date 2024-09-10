@@ -1,5 +1,5 @@
 import AuthController from '@/controllers/auth.controller';
-import { AuthMiddleware } from '@/middlewares/authenticate';
+import { AuthMiddleware } from '@/middlewares/auth.middleware';
 import { Router } from 'express';
 
 export default class AuthRouter {

@@ -1,5 +1,5 @@
 import AddressController from '@/controllers/address.controller';
-import { AuthMiddleware } from '@/middlewares/authenticate';
+import { AuthMiddleware } from '@/middlewares/auth.middleware';
 import ProfileController from '@/controllers/profile.controller';
 import { Router } from 'express';
 
