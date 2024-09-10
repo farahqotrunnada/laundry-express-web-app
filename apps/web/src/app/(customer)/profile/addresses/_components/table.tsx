@@ -28,7 +28,6 @@ const AddressTable: React.FC<AddressListProps> = ({ ...props }) => {
             <TableHead className='hidden sm:table-cell'>City</TableHead>
             <TableHead className='hidden md:table-cell'>Region</TableHead>
             <TableHead className='hidden md:table-cell'>Created At</TableHead>
-            <TableHead className='text-right'>Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>

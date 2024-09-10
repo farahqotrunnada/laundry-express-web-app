@@ -78,11 +78,9 @@ const DataTable = <TData, TValue>({
     },
   });
 
-  console.log(sorting);
-
   return (
     <div>
-      <div className='flex items-center p-4'>
+      <div className='flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6'>
         <Input
           placeholder='Filter name'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
@@ -91,7 +89,7 @@ const DataTable = <TData, TValue>({
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant='outline' className='ml-auto'>
+            <Button variant='outline' className='lg:ml-auto'>
               Columns
             </Button>
           </DropdownMenuTrigger>
@@ -113,7 +111,8 @@ const DataTable = <TData, TValue>({
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-      <div className='rounded-md border'>
+
+      <div className='rounded-md border mb-6'>
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -147,9 +146,8 @@ const DataTable = <TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <div className='mt-4'>
-        <DataTablePagination table={table} />
-      </div>
+
+      <DataTablePagination table={table} />
     </div>
   );
 };

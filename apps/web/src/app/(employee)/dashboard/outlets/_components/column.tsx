@@ -19,7 +19,7 @@ const columns: ColumnDef<Outlet>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title='Outlet Name' />;
+      return <DataTableColumnHeader column={column} title='Outlet Name' priority />;
     },
   },
   {
@@ -27,11 +27,17 @@ const columns: ColumnDef<Outlet>[] = [
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title='Address' />;
     },
+    cell: ({ row }) => {
+      return <div className='hidden md:block'>{row.original.address}</div>;
+    },
   },
   {
     accessorKey: 'city',
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title='City' />;
+    },
+    cell: ({ row }) => {
+      return <div className='hidden md:block'>{row.original.city}</div>;
     },
   },
   {
@@ -39,18 +45,26 @@ const columns: ColumnDef<Outlet>[] = [
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title='City District' />;
     },
+    cell: ({ row }) => {
+      return <div className='hidden md:block'>{row.original.city_district}</div>;
+    },
   },
   {
     accessorKey: 'region',
     header: ({ column }) => {
       return <DataTableColumnHeader column={column} title='Region' />;
     },
+    cell: ({ row }) => {
+      return <div className='hidden md:block'>{row.original.region}</div>;
+    },
   },
   {
     id: 'actions',
+    enableSorting: false,
+    header: ({ column }) => {
+      return <DataTableColumnHeader column={column} title='Actions' priority />;
+    },
     cell: ({ row }) => {
-      const payment = row.original;
-
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
