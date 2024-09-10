@@ -11,8 +11,8 @@ const DashboardLayout: React.FC<DashboardProps> = ({ children }) => {
       <Sidebar />
       <div className='flex flex-col'>
         <Header />
-        <main className='flex flex-1 flex-col gap-8 py-8'>
-          <div className='container'>{children}</div>
+        <main className='flex-1'>
+          <div className='container flex flex-col gap-8 py-8'>{children}</div>
         </main>
       </div>
     </div>

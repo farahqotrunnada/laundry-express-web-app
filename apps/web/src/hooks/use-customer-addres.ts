@@ -25,7 +25,7 @@ export const useCustomerAddress = () => {
     } else if (error) {
       toast({
         title: 'Failed to load addresses',
-        description: JSON.stringify(error),
+        description: error.message,
       });
     }
   }, [data, error, toast]);
