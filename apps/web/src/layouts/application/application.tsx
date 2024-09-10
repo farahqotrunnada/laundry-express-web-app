@@ -3,15 +3,19 @@ import * as React from 'react';
 import Footer from '@/layouts/application/footer';
 import Header from '@/layouts/application/header/header';
 import { NavigationItem } from '@/types/navigation';
+import { cn } from '@/lib/utils';
 
 interface ApplicationProps extends React.PropsWithChildren {
-  //
+  containerized?: boolean;
 }
 
-export default async function Application({ children }: ApplicationProps): Promise<React.JSX.Element> {
+export default async function Application({
+  children,
+  containerized = true,
+}: ApplicationProps): Promise<React.JSX.Element> {
   const menus: NavigationItem[] = [
     {
-      title: 'Product',
+      title: 'Services',
       description: 'Managing a small business today is already tough.',
       items: [
         {
@@ -33,7 +37,7 @@ export default async function Application({ children }: ApplicationProps): Promi
       ],
     },
     {
-      title: 'Company',
+      title: 'About',
       description: 'Managing a small business today is already tough.',
       items: [
         { title: 'About us', href: '/about' },
@@ -47,7 +51,7 @@ export default async function Application({ children }: ApplicationProps): Promi
   return (
     <>
       <Header menus={menus} />
-      <main className='container min-h-screen py-10'>{children}</main>
+      <main className={cn('min-h-screen py-10', containerized && 'container')}>{children}</main>
       <Footer menus={menus} />
     </>
   );

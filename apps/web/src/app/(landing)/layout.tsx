@@ -7,5 +7,5 @@ interface LayoutProps extends React.PropsWithChildren {
 }
 
 export default async function Layout({ children }: LayoutProps): Promise<React.JSX.Element> {
-  return <Application>{children}</Application>;
+  return <Application containerized={false}>{children}</Application>;
 }

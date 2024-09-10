@@ -40,34 +40,22 @@ export const SIDEBAR_LINKS: SidebarMenu[] = [
 
 export const FEATURES_LIST = [
   {
-    title: 'Performance',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, harum?',
-    icon: Timer,
+    title: 'Laundry Pickup Service',
+    description:
+      "We provide door-to-door laundry pickup and delivery without any minimum spend. Just schedule a pickup, and we'll handle the rest.",
+    image: '/features/feature1.jpg',
   },
   {
-    title: 'Innovation',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, harum?',
-    icon: Zap,
+    title: 'Express Wash & Fold',
+    description:
+      'Need your laundry done in a hurry? Our Express Wash & Fold service guarantees a 24-hour turnaround time.',
+    image: '/features/feature2.jpg',
   },
   {
-    title: 'Quality',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, harum?',
-    icon: ZoomIn,
-  },
-  {
-    title: 'Accessibility',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, harum?',
-    icon: PersonStanding,
-  },
-  {
-    title: 'Security',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, harum?',
-    icon: Lock,
-  },
-  {
-    title: 'Support',
-    description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore, harum?',
-    icon: Heart,
+    title: 'Dry Cleaning Service',
+    description:
+      'Keep your delicate garments pristine with our premium dry cleaning service, expertly handling everything from suits to silk dresses with care and precision.',
+    image: '/features/feature3.jpg',
   },
 ];
 

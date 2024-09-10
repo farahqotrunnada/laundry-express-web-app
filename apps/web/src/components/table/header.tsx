@@ -1,4 +1,4 @@
-import { ArrowDownIcon, ArrowUpDownIcon, ArrowUpIcon, EyeOff } from 'lucide-react';
+import { ArrowDown, ArrowUp, ArrowUpDown, Eye } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,46 +14,40 @@ import { cn } from '@/lib/utils';
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
-  priority?: boolean;
 }
 
-export function DataTableColumnHeader<TData, TValue>({
-  column,
-  title,
-  className,
-  priority = false,
-}: DataTableColumnHeaderProps<TData, TValue>) {
+function DataTableColumnHeader<TData, TValue>({ column, title, className }: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <div className={cn(!priority ? 'hidden md:flex' : 'flex', className)}>{title}</div>;
+    return <div className={cn(className)}>{title}</div>;
   }
 
   return (
-    <div className={cn('items-center space-x-2', !priority ? 'hidden md:flex' : 'flex', className)}>
+    <div className={cn('flex items-center space-x-2', className)}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant='ghost' size='sm' className='-ml-3 h-8 data-[state=open]:bg-accent'>
             <span>{title}</span>
             {column.getIsSorted() === 'desc' ? (
-              <ArrowDownIcon className='ml-2 h-4 w-4' />
+              <ArrowDown className='ml-2 h-4 w-4' />
             ) : column.getIsSorted() === 'asc' ? (
-              <ArrowUpIcon className='ml-2 h-4 w-4' />
+              <ArrowUp className='ml-2 h-4 w-4' />
             ) : (
-              <ArrowUpDownIcon className='ml-2 h-4 w-4' />
+              <ArrowUpDown className='ml-2 h-4 w-4' />
             )}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='start'>
           <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUpIcon className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            <ArrowUp className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
             Asc
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDownIcon className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            <ArrowDown className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
             Desc
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <EyeOff className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
+            <Eye className='mr-2 h-3.5 w-3.5 text-muted-foreground/70' />
             Hide
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -61,3 +55,4 @@ export function DataTableColumnHeader<TData, TValue>({
     </div>
   );
 }
+export default DataTableColumnHeader;

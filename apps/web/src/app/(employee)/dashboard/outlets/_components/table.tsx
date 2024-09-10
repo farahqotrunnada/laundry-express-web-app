@@ -79,14 +79,15 @@ const DataTable = <TData, TValue>({
   });
 
   return (
-    <div>
-      <div className='flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6'>
+    <div className='w-full'>
+      <div className='flex flex-col lg:justify-between lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-4 mb-6'>
         <Input
           placeholder='Filter name'
           value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) => table.getColumn('name')?.setFilterValue(event.target.value)}
-          className='max-w-sm'
+          className='w-full lg:max-w-md'
         />
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant='outline' className='lg:ml-auto'>
@@ -222,7 +223,7 @@ const OutletTable = () => {
     <DataTable
       columns={columns}
       data={data.data.outlets}
-      pageCount={Math.round(data.data.count / pagination.pageSize)}
+      pageCount={Math.ceil(data.data.count / pagination.pageSize)}
       sorting={sorting}
       onSortingChange={setSorting}
       pagination={pagination}

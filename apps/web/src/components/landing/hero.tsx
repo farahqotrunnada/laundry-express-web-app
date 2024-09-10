@@ -2,42 +2,61 @@
 
 import * as React from 'react';
 
-import { Badge } from '@/components/ui/badge';
+import { Badge } from '../ui/badge';
 import { Button } from '@/components/ui/button';
-import { MoveRight } from 'lucide-react';
+import { PROJECT_NAME } from '@/lib/constant';
+import { Separator } from '../ui/separator';
+import { Star } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
-interface HeroProps {
+interface HeroProps extends React.HTMLAttributes<HTMLDivElement> {
   //
 }
 
-export const Hero: React.FC<HeroProps> = ({ ...props }) => {
+const Hero: React.FC<HeroProps> = ({ className, ...props }) => {
   return (
-    <div className='grid grid-cols-1 gap-8 items-center lg:grid-cols-2'>
-      <div className='flex gap-4 flex-col'>
-        <div>
-          <Badge variant='outline'>We&apos;re live!</Badge>
-        </div>
-        <div className='flex gap-4 flex-col'>
-          <h1 className='text-5xl md:text-7xl max-w-lg tracking-tighter text-left font-bold'>
-            This is the start of something!
-          </h1>
-          <p className='leading-relaxed tracking-tight text-muted-foreground max-w-md text-left'>
-            Managing a small business today is already tough. Avoid further complications by ditching outdated, tedious
-            trade methods. Our goal is to streamline SMB trade, making it easier and faster than ever.
-          </p>
-        </div>
-
-        <div className='flex flex-row gap-4'>
-          <Button className='gap-4' variant='outline'>
-            Jump on a call <MoveRight className='w-5 h-5' />
-          </Button>
-          <Button className='gap-4'>
-            Sign up here <MoveRight className='w-4 h-4' />
-          </Button>
-        </div>
+    <div className={cn('w-full flex flex-col space-y-6 justify-center', className)} {...props}>
+      <div className='flex flex-col items-center text-center space-y-4'>
+        <h1 className='text-5xl lg:text-7xl font-bold'>
+          Clean Clothes with <span className='rainbow'>{PROJECT_NAME}</span>
+          <br />
+          Experience the Difference
+        </h1>
+        <p className='text-muted-foreground max-w-md'>
+          Experience the ease and reliability of LaundryXpert, where quality laundry care meets exceptional service.
+        </p>
       </div>
 
-      <div className='bg-muted rounded-md aspect-square'></div>
+      <div className='flex items-center space-x-4 justify-center'>
+        <Button variant='outline'>How it Works</Button>
+        <Button variant='default'>Premium Features</Button>
+      </div>
+
+      <div className='flex items-center justify-center space-x-4'>
+        <div className='flex flex-col items-end space-y-1'>
+          <div className='flex text-orange-500'>
+            <Star className='size-6 fill-current' />
+            <Star className='size-6 fill-current' />
+            <Star className='size-6 fill-current' />
+            <Star className='size-6 fill-current' />
+            <Star className='size-6 fill-current' />
+          </div>
+
+          <div className='flex space-x-2 items-center'>
+            <span className='font-bold'>4.9</span>
+            <span>Ratings</span>
+          </div>
+        </div>
+
+        <Separator orientation='vertical' />
+
+        <div className='flex flex-col items-start space-y-1'>
+          <span className='font-bold'>1+ Million</span>
+          <span>Downloads</span>
+        </div>
+      </div>
     </div>
   );
 };
+
+export default Hero;

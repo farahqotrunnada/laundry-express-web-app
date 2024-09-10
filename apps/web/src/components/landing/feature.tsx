@@ -1,12 +1,15 @@
-import { Badge } from '@/components/ui/badge';
 import { FEATURES_LIST } from '@/lib/constant';
+import Image from 'next/image';
 
-const Feature = () => {
+interface FeatureProps extends React.HTMLAttributes<HTMLDivElement> {
+  //
+}
+
+const Feature: React.FC<FeatureProps> = ({ ...props }) => {
   return (
-    <div>
-      <div className='flex flex-col space-y-2 items-start'>
-        <Badge variant='outline'>Features</Badge>
-        <h2 className='font-bold text-4xl'>Our Core Features</h2>
+    <div {...props}>
+      <div className='flex flex-col space-y-2 items-center'>
+        <h2 className='font-bold text-4xl'>Wha&apos;s Included in the Service?</h2>
         <p className='leading-relaxed tracking-tight text-muted-foreground text-left'>
           Managing a small business today is already tough. Avoid further complications by ditching outdated.
         </p>
@@ -14,17 +17,13 @@ const Feature = () => {
 
       <div className='mx-auto mt-14 grid gap-8 md:grid-cols-3'>
         {FEATURES_LIST.map((feature, idx) => {
-          const Icon = feature.icon;
-
           return (
-            <div className='flex gap-6 rounded-lg md:block p-6 bg-muted' key={idx}>
-              <span className='mb-2 flex text-white size-8 shrink-0 items-center justify-center rounded-full bg-primary'>
-                <Icon className='size-5' />
-              </span>
+            <div className='flex flex-col rounded-lg md:block p-6 border space-y-6 bg-white' key={idx}>
               <div>
                 <h3 className='font-medium md:mb-2 text-lg'>{feature.title}</h3>
-                <p className='text-sm text-muted-foreground'>{feature.description}</p>
+                <p className='text-sm text-muted-foreground line-clamp-3'>{feature.description}</p>
               </div>
+              <Image src={feature.image} alt='Logo' width={300} height={300} className='w-full rounded-md' />
             </div>
           );
         })}

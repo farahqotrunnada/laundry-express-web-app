@@ -10,7 +10,7 @@ interface PageProps {
 
 export default async function Page({ ...props }: PageProps): Promise<React.JSX.Element> {
   return (
-    <Card x-chunk='dashboard-04-chunk-1'>
+    <Card>
       <CardHeader>
         <CardTitle className='text-xl font-bold'>Add Address</CardTitle>
         <CardDescription>Manage your addresses, this information will be used to deliver your orders.</CardDescription>

@@ -20,7 +20,7 @@ const AddressTable: React.FC<AddressListProps> = ({ ...props }) => {
   if (isLoading) return <div>loading...</div>;
 
   return (
-    <div>
+    <div className='rounded-md border'>
       <Table>
         <TableHeader>
           <TableRow>

@@ -1,5 +1,6 @@
 'use client';
 
+import { Check, CheckCircle, CircleUser } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +11,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { AVATAR_LINKS } from '@/lib/constant';
+import { Badge } from './ui/badge';
 import { Button } from '@/components/ui/button';
-import { CircleUser } from 'lucide-react';
 import Link from 'next/link';
 import { User } from '@/types/user';
 import { useAuth } from '@/hooks/use-auth';
@@ -52,8 +53,18 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ user }) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align='end' className='w-56'>
-        <DropdownMenuLabel>{user.fullname}</DropdownMenuLabel>
+        <div className='flex items-center space-x-1 py-2'>
+          <DropdownMenuLabel>{user.fullname}</DropdownMenuLabel>
+          <Badge variant='default' className='text-xs aspect-square p-0.5'>
+            {user.is_verified ? <Check className='size-3' /> : 'Unverified'}
+          </Badge>
+        </div>
         <DropdownMenuSeparator />
+        {user.role !== 'Customer' && (
+          <Link href='/dashboard'>
+            <DropdownMenuItem className='cursor-pointer'>Dashboard</DropdownMenuItem>
+          </Link>
+        )}
         {AVATAR_LINKS.map((link) => (
           <Link key={link.title} href={link.href}>
             <DropdownMenuItem className='cursor-pointer'>{link.title}</DropdownMenuItem>

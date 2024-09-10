@@ -67,3 +67,51 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes rainbow-text-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100vh);
+  }
+}
+
+@layer components {
+  .rainbow {
+    background-image: linear-gradient(
+      90deg,
+      #ff2400 0%,
+      #e81d1d 17%,
+      #e8b71d 33%,
+      #e3e81d 50%,
+      #1de840 67%,
+      #1ddde8 83%,
+      #2b1de8 100%
+    );
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-text-animation 10s linear infinite;
+  }
+
+  .animate-left {
+    animation: scroll 15s forwards linear infinite;
+  }
+
+  .animate-right {
+    animation: scroll 15s reverse linear infinite;
+  }
+}

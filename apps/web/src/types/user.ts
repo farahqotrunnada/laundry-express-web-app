@@ -14,4 +14,5 @@ export type User = {
   role: Role;
   email: string;
   avatar_url: string;
+  is_verified: boolean;
 };

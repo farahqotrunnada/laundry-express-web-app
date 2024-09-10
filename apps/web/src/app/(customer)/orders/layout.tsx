@@ -13,5 +13,12 @@ export default async function Layout({ children }: LayoutProps): Promise<React.J
     { title: 'Completed Order', href: '/orders/completed' },
   ];
 
-  return <SubmenuLayout links={links}>{children}</SubmenuLayout>;
+  return (
+    <SubmenuLayout
+      label='Manage Orders'
+      description='Manage your orders, in this section you can view all your orders and manage them.'
+      links={links}>
+      {children}
+    </SubmenuLayout>
+  );
 }
