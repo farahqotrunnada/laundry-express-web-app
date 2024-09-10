@@ -19,7 +19,7 @@ const columns: ColumnDef<Outlet>[] = [
   {
     accessorKey: 'name',
     header: ({ column }) => {
-      return <DataTableColumnHeader column={column} title='Address' />;
+      return <DataTableColumnHeader column={column} title='Outlet Name' />;
     },
   },
   {

@@ -224,7 +224,7 @@ const OutletTable = () => {
     <DataTable
       columns={columns}
       data={data.data.outlets}
-      pageCount={data.data.count}
+      pageCount={Math.round(data.data.count / pagination.pageSize)}
       sorting={sorting}
       onSortingChange={setSorting}
       pagination={pagination}
