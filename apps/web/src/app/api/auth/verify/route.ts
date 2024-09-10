@@ -8,6 +8,6 @@ export async function POST(request: Request) {
   const payload = jwt.verify(token, process.env.NEXT_PRIVATE_JWT_SECRET as string) as User;
   if (!payload) return NextResponse.json({ protected: true });
 
-  if (allowed.includes(payload.role as string)) return NextResponse.json({ protected: false });
+  if (allowed.includes(payload.role)) return NextResponse.json({ protected: false });
   return NextResponse.json({ protected: true });
 }

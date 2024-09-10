@@ -10,7 +10,7 @@ interface LayoutProps extends React.PropsWithChildren {
 export default async function Layout({ children }: LayoutProps): Promise<React.JSX.Element> {
   return (
     <AuthGuard
-      allowed={['Customer', 'Driver', 'Superadmin', 'OutletAdmin', 'WashingWorker', 'IroningWorker', 'PackingWorker']}>
+      allowed={['Customer', 'Driver', 'SuperAdmin', 'OutletAdmin', 'WashingWorker', 'IroningWorker', 'PackingWorker']}>
       <Application>{children}</Application>
     </AuthGuard>
   );

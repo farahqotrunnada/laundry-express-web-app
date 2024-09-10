@@ -1,4 +1,5 @@
 import { LucideIcon } from 'lucide-react';
+import { Role } from './user';
 
 export interface NavigationLink {
   title: string;
@@ -16,6 +17,6 @@ export interface NavigationItem {
 export interface SidebarMenu {
   title: string;
   href: string;
-  icon: React.FC<React.SVGProps<SVGSVGElement>>;
-  badge?: number | string;
+  roles: Role[];
+  icon: LucideIcon;
 }

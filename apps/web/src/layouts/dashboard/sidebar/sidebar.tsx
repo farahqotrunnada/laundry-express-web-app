@@ -1,22 +1,17 @@
 'use client';
 
-import * as React from 'react';
-
 import { PROJECT_NAME, SIDEBAR_LINKS } from '@/lib/constant';
 
 import AppIcon from '@/components/app-icon';
 import Link from 'next/link';
 import SidebarCard from '@/layouts/dashboard/sidebar/card';
 import SidebarLink from '@/layouts/dashboard/sidebar/sidelink';
-import { usePathname } from 'next/navigation';
 
 interface SidebarProps {
   //
 }
 
 const Sidebar: React.FC<SidebarProps> = ({ ...props }) => {
-  const pathname = usePathname();
-
   return (
     <div className='hidden border-r bg-zinc-50/40 md:block'>
       <div className='flex h-full max-h-screen flex-col gap-2'>
@@ -30,7 +25,7 @@ const Sidebar: React.FC<SidebarProps> = ({ ...props }) => {
         <div className='flex-1'>
           <nav className='grid items-start px-4 gap-1 text-sm font-medium '>
             {SIDEBAR_LINKS.map((link) => (
-              <SidebarLink key={link.title} link={link} path={pathname} />
+              <SidebarLink key={link.title} link={link} />
             ))}
           </nav>
         </div>
